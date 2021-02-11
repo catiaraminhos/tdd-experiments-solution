@@ -23,20 +23,31 @@ namespace TemplateEngine
 
         public string Evaluate()
         {
+            string templateResult = ReplaceVariables();
+            CheckForMissingValues(templateResult);
+            return templateResult;
+        }
+
+
+        private string ReplaceVariables()
+        {
             string templateResult = this.templateText;
 
-            foreach(KeyValuePair<string, string> variable in this.variables)
+            foreach (KeyValuePair<string, string> variable in this.variables)
             {
                 string variableNameRegex = "\\$\\{" + variable.Key + "\\}";
-                templateResult = Regex.Replace(templateResult, variableNameRegex , variable.Value);
+                templateResult = Regex.Replace(templateResult, variableNameRegex, variable.Value);
             }
 
+            return templateResult;
+        } 
+
+        private void CheckForMissingValues(string templateResult)
+        {
             if (Regex.IsMatch(templateResult, ".*\\$\\{.+\\}.*"))
             {
                 throw new MissingValueException();
             }
-
-            return templateResult;
         }
     }
 }
