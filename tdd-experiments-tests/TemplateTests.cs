@@ -33,6 +33,13 @@ namespace TemplateTests
         }
 
 
+        [Test]
+        public void MissingValueRaisesException()
+        {
+            Assert.Throws<MissingValueException>(() => new Template("${foo}").Evaluate());
+        }
+
+
         private void AssertTemplateEvaluatesTo(string expected)
         {
             Assert.That(template.Evaluate(), Is.EqualTo(expected));

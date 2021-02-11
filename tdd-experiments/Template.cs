@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace TemplateEngine
@@ -31,6 +29,11 @@ namespace TemplateEngine
             {
                 string variableNameRegex = "\\$\\{" + variable.Key + "\\}";
                 templateResult = Regex.Replace(templateResult, variableNameRegex , variable.Value);
+            }
+
+            if (Regex.IsMatch(templateResult, ".*\\$\\{.+\\}.*"))
+            {
+                throw new MissingValueException();
             }
 
             return templateResult;
