@@ -44,9 +44,10 @@ namespace TemplateEngine
 
         private void CheckForMissingValues(string templateResult)
         {
-            if (Regex.IsMatch(templateResult, ".*\\$\\{.+\\}.*"))
+            Match missingValues = Regex.Match(templateResult, ".*\\$\\{.+\\}.*");
+            if (missingValues.Success)
             {
-                throw new MissingValueException();
+                throw new MissingValueException("No value for " + missingValues.Value);
             }
         }
     }
