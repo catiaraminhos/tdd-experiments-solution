@@ -13,14 +13,15 @@ namespace TemplateTests
         [SetUp]
         public void SetUp()
         {
-            template = new Template("Far far ${one}, behind the ${two} mountains, " +
-                "far ${three} the countries Vokalia and Consonantia, there live the blind texts. " +
-                "Separated they live ${four} Bookmarksgrove ${five} ${six} the ${seven} of the Semantics, " +
-                "a large language ${eight}. A small river named Duden ${nine} by their ${ten} and " +
-                "supplies it ${eleven} ${twelve} necessary ${thirteen}. It is a ${fourteen} country, " +
-                "in which roasted parts of ${fifteen} fly into your mouth. Even the ${sixteen} " +
-                "${eighteen} has no control about the blind texts it is an almost ${nineteen} life " +
-                "One day ${twenty} a small line of blind text by the name of Lorem Ipsum decided to");
+            var templateText = new StringBuilder("Far far ${one}, behind the ${two} mountains, ")
+                .Append("far ${three} the countries Vokalia and Consonantia, there live the blind texts. ")
+                .Append("Separated they live ${four} Bookmarksgrove ${five} ${six} the ${seven} of the Semantics, ")
+                .Append("a large language ${eight}. A small river named Duden ${nine} by their ${ten} and ")
+                .Append("supplies it ${eleven} ${twelve} necessary ${thirteen}. It is a ${fourteen} country, ")
+                .Append("in which roasted parts of ${fifteen} fly into your mouth. Even the ${sixteen} ")
+                .Append("${eighteen} has no control about the blind texts it is an almost ${nineteen} life ")
+                .Append("One day ${twenty} a small line of blind text by the name of Lorem Ipsum decided to");
+            template = new Template(templateText.ToString());
 
             template.Set("one", "awayawayawayaway");
             template.Set("two", "wordwordwordword");
