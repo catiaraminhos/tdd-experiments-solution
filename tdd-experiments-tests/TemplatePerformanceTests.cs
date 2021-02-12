@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Diagnostics;
+using System.Text;
 using TemplateEngine;
 
 namespace TemplateTests
@@ -8,7 +9,6 @@ namespace TemplateTests
     public class TemplatePerformanceTests
     {
         private Template template;
-
 
         [SetUp]
         public void SetUp()
@@ -43,12 +43,11 @@ namespace TemplateTests
             template.Set("twenty", "howeverhoweverhowever");
         }
 
-
         [Test]
         public void TemplateWith100WordsAnd20Variables()
         {
             long expectedMaxMilliseconds = 200L;
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
             template.Evaluate();
             stopWatch.Stop();

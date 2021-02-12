@@ -9,7 +9,6 @@ namespace TemplateEngine
 
         private Dictionary<string, string> variables;
 
-
         public Template(string templateText)
         {
             this.templateText = templateText;
@@ -28,7 +27,6 @@ namespace TemplateEngine
             return templateResult;
         }
 
-
         private string ReplaceVariables()
         {
             string templateResult = this.templateText;
@@ -44,7 +42,7 @@ namespace TemplateEngine
 
         private void CheckForMissingValues(string templateResult)
         {
-            Match missingValues = Regex.Match(templateResult, ".*\\$\\{.+\\}.*");
+            var missingValues = Regex.Match(templateResult, ".*\\$\\{.+\\}.*");
             if (missingValues.Success)
             {
                 throw new MissingValueException("No value for " + missingValues.Value);
