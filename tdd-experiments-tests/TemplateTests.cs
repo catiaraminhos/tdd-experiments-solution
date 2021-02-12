@@ -8,7 +8,6 @@ namespace TemplateTests
     {
         private Template template;
 
-
         [SetUp]
         public void SetUp()
         {
@@ -17,7 +16,6 @@ namespace TemplateTests
             template.Set("two", "2");
             template.Set("three", "3");
         }
-
 
         [Test]
         public void MultipleVariables()
@@ -32,15 +30,13 @@ namespace TemplateTests
             AssertTemplateEvaluatesTo("1, 2, 3");
         }
 
-
         [Test]
         public void MissingValueRaisesException()
         {
-            MissingValueException missingValueException = 
+            var missingValueException =
                 Assert.Throws<MissingValueException>(() => new Template("${foo}").Evaluate());
             Assert.That(missingValueException.Message, Is.EqualTo("No value for ${foo}"));
         }
-
 
         private void AssertTemplateEvaluatesTo(string expected)
         {
