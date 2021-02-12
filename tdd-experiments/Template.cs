@@ -17,7 +17,7 @@ namespace TemplateEngine
 
         public void Set(string variable, string value)
         {
-            this.variables.Add(variable, value);
+            this.variables[variable] = value;
         }
 
         public string Evaluate()

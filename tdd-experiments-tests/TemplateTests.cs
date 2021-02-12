@@ -38,6 +38,15 @@ namespace TemplateTests
             Assert.That(missingValueException.Message, Is.EqualTo("No value for ${foo}"));
         }
 
+        [Test]
+        public void VariablesGetProcessedJustOnce()
+        {
+            template.Set("one", "${one}");
+            template.Set("two", "${three}");
+            template.Set("three", "${two}");
+            AssertTemplateEvaluatesTo("${one}, ${three}, ${two}");
+        }
+
         private void AssertTemplateEvaluatesTo(string expected)
         {
             Assert.That(template.Evaluate(), Is.EqualTo(expected));
