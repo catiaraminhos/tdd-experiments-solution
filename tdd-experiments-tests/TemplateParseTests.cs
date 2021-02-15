@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using TemplateEngine;
 
 namespace TemplateTests
@@ -10,19 +11,26 @@ namespace TemplateTests
         [Test]
         public void EmptyTemplateParsesAsEmptyString()
         {
-            var parse = new TemplateParse();
-            List<string> segments = parse.Parse("");
-            Assert.That(segments.Count, Is.EqualTo(1));
-            Assert.That(segments[0], Is.EqualTo(""));
+            var segments = Parse("");
+            AssertSegments(segments, "");
         }
 
         [Test]
         public void TemplateWithOnlyPlainText()
         {
-            var parse = new TemplateParse();
-            List<string> segments = parse.Parse("plain text only");
-            Assert.That(segments.Count, Is.EqualTo(1));
-            Assert.That(segments[0], Is.EqualTo("plain text only"));
+            var segments = Parse("plain text only");
+            AssertSegments(segments, "plain text only");
+        }
+
+        private List<string> Parse (string template)
+        {
+            return new TemplateParse().Parse(template);
+        }
+
+        private void AssertSegments<T> (List<T> actual, params T[] expected)
+        {
+            Assert.That(expected.Length, Is.EqualTo(actual.Count));
+            Assert.That(expected.ToList(), Is.EqualTo(actual));
         }
     }
 }
