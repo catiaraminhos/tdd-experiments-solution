@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Text;
 
 namespace TemplateEngine
 {
@@ -22,30 +22,31 @@ namespace TemplateEngine
 
         public string Evaluate()
         {
-            string templateResult = ReplaceVariables();
-            CheckForMissingValues(templateResult);
-            return templateResult;
-        }
-
-        private string ReplaceVariables()
-        {
-            string templateResult = this.templateText;
-
-            foreach (KeyValuePair<string, string> variable in this.variables)
+            var parser = new TemplateParse();
+            var segments = parser.Parse(this.templateText);
+            var result = new StringBuilder();
+            foreach (string segment in segments)
             {
-                string variableNameRegex = "\\$\\{" + variable.Key + "\\}";
-                templateResult = Regex.Replace(templateResult, variableNameRegex, variable.Value);
+                Append(segment, result);
             }
 
-            return templateResult;
-        } 
+            return result.ToString();
+        }
 
-        private void CheckForMissingValues(string templateResult)
+        private void Append(string segment, StringBuilder result)
         {
-            var missingValues = Regex.Match(templateResult, ".*\\$\\{.+\\}.*");
-            if (missingValues.Success)
+            if (segment.StartsWith("${") && segment.EndsWith("}"))
             {
-                throw new MissingValueException("No value for " + missingValues.Value);
+                string variable = segment[2..(segment.Length - 1)];
+                if (!this.variables.ContainsKey(variable))
+                {
+                    throw new MissingValueException("No value for " + segment);
+                }
+
+                result.Append(this.variables[variable]);
+            } else
+            {
+                result.Append(segment);
             }
         }
     }
