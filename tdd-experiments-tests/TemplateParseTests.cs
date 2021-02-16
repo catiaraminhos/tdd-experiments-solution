@@ -22,6 +22,13 @@ namespace TemplateTests
             AssertSegments(segments, "plain text only");
         }
 
+        [Test]
+        public void TemplateWithTwoVariables()
+        {
+            var segments = Parse("${a}:${b}:${c}");
+            AssertSegments(segments, "${a}", ":", "${b}", ":", "${c}");
+        }
+
         private List<string> Parse (string template)
         {
             return new TemplateParse().Parse(template);
@@ -29,8 +36,8 @@ namespace TemplateTests
 
         private void AssertSegments<T> (List<T> actual, params T[] expected)
         {
-            Assert.That(expected.Length, Is.EqualTo(actual.Count));
-            Assert.That(expected.ToList(), Is.EqualTo(actual));
+            Assert.That(actual.Count, Is.EqualTo(expected.Length));
+            Assert.That(actual, Is.EqualTo(expected.ToList()));
         }
     }
 }
