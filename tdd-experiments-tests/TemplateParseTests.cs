@@ -6,7 +6,7 @@ using TemplateEngine;
 namespace TemplateTests
 {
     [TestFixture]
-    class TemplateParseTests
+    public class TemplateParseTests
     {
         [Test]
         public void EmptyTemplateParsesAsEmptyString()
@@ -29,12 +29,21 @@ namespace TemplateTests
             AssertSegments(segments, "${a}", ":", "${b}", ":", "${c}");
         }
 
-        private List<string> Parse (string template)
+        [Test]
+        public void ParsingTemplateIntoSegmentObjects()
+        {
+            var parser = new TemplateParse();
+            List<ISegment> segments = parser.ParseSegments("a ${b} c ${d}");
+            AssertSegments(segments, new PlainText("a "), new Variable("b"),
+                new PlainText(" c "), new Variable("d"));
+        }
+
+        private List<string> Parse(string template)
         {
             return new TemplateParse().Parse(template);
         }
 
-        private void AssertSegments<T> (List<T> actual, params T[] expected)
+        private void AssertSegments<T>(List<T> actual, params T[] expected)
         {
             Assert.That(actual.Count, Is.EqualTo(expected.Length));
             Assert.That(actual, Is.EqualTo(expected.ToList()));

@@ -14,6 +14,26 @@ namespace TemplateEngine
             return segments;
         }
 
+        public List<ISegment> ParseSegments(string template)
+        {
+            var segments = new List<ISegment>();
+            var segmentsStrings = Parse(template);
+            foreach (string segmentString in segmentsStrings)
+            {
+                if (Template.IsVariable(segmentString))
+                {
+                    string variableName = segmentString[2..(segmentString.Length - 1)];
+                    segments.Add(new Variable(variableName));
+                }
+                else
+                {
+                    segments.Add(new PlainText(segmentString));
+                }
+            }
+
+            return segments;
+        }
+
         private int CollectSegments(List<string> segs, string src)
         {
             var pattern = "\\$\\{[^}]*\\}";

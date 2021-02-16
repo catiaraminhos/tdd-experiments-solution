@@ -43,13 +43,14 @@ namespace TemplateEngine
             if (IsVariable(segment))
             {
                 EvaluateVariable(segment, result);
-            } else
+            }
+            else
             {
                 result.Append(segment);
             }
         }
 
-        private bool IsVariable(string segment)
+        public static bool IsVariable(string segment)
         {
             return segment.StartsWith("${") && segment.EndsWith("}");
         }
