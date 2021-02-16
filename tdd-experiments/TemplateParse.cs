@@ -5,36 +5,16 @@ namespace TemplateEngine
 {
     public class TemplateParse
     {
-        public List<string> Parse(string templateText)
+        public List<ISegment> ParseSegments(string templateText)
         {
-            var segments = new List<string>();
+            var segments = new List<ISegment>();
             var index = CollectSegments(segments, templateText);
             AddTail(segments, templateText, index);
             AddEmptyStringIfTemplateWasEmpty(segments);
             return segments;
         }
 
-        public List<ISegment> ParseSegments(string template)
-        {
-            var segments = new List<ISegment>();
-            var segmentsStrings = Parse(template);
-            foreach (string segmentString in segmentsStrings)
-            {
-                if (IsVariable(segmentString))
-                {
-                    string variableName = segmentString[2..(segmentString.Length - 1)];
-                    segments.Add(new Variable(variableName));
-                }
-                else
-                {
-                    segments.Add(new PlainText(segmentString));
-                }
-            }
-
-            return segments;
-        }
-
-        private int CollectSegments(List<string> segs, string src)
+        private int CollectSegments(List<ISegment> segs, string src)
         {
             var pattern = "\\$\\{[^}]*\\}";
             var match = Regex.Match(src, pattern);
@@ -51,38 +31,36 @@ namespace TemplateEngine
             return index;
         }
 
-        private void AddTail(List<string> segs, string templateText, int index)
+        private void AddTail(List<ISegment> segs, string templateText, int index)
         {
             if (index < templateText.Length)
             {
-                segs.Add(templateText.Substring(index));
+                string text = templateText.Substring(index);
+                segs.Add(new PlainText(text));
             }
         }
 
-        private void AddEmptyStringIfTemplateWasEmpty(List<string> segs)
+        private void AddEmptyStringIfTemplateWasEmpty(List<ISegment> segs)
         {
             if (segs.Count == 0)
             {
-                segs.Add("");
+                segs.Add(new PlainText(""));
             }
         }
 
-        private void AddPrecedingPlainText(List<string> segs, string src, Match match, int index)
+        private void AddPrecedingPlainText(List<ISegment> segs, string src, Match match, int index)
         {
             if (index != match.Index)
             {
-                segs.Add(src[index..match.Index]);
+                string text = src[index..match.Index];
+                segs.Add(new PlainText(text));
             }
         }
 
-        private void AddVariable(List<string> segs, string src, Match match)
+        private void AddVariable(List<ISegment> segs, string src, Match match)
         {
-            segs.Add(src.Substring(match.Index, match.Length));
-        }
-
-        private static bool IsVariable(string segment)
-        {
-            return segment.StartsWith("${") && segment.EndsWith("}");
+            string variableName = src.Substring(match.Index + 2, match.Length - 3);
+            segs.Add(new Variable(variableName));
         }
     }
 }
