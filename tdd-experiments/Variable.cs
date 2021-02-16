@@ -13,6 +13,12 @@ namespace TemplateEngine
 
         public string Evaluate(Dictionary<string, string> variables)
         {
+            if (!variables.ContainsKey(this.name))
+            {
+                throw new MissingValueException(
+                    "No value for ${" + this.name + "}");
+            }
+            
             return variables[this.name];
         }
 

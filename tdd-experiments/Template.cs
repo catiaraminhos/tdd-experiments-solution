@@ -23,47 +23,19 @@ namespace TemplateEngine
         public string Evaluate()
         {
             var parser = new TemplateParse();
-            var segments = parser.Parse(this.templateText);
+            var segments = parser.ParseSegments(this.templateText);
             return Concatenate(segments);
         }
 
-        private string Concatenate(List<string> segments)
+        private string Concatenate(List<ISegment> segments)
         {
             var result = new StringBuilder();
-            foreach (string segment in segments)
+            foreach (ISegment segment in segments)
             {
-                Append(segment, result);
+                result.Append(segment.Evaluate(this.variables));
             }
 
             return result.ToString();
-        }
-
-        private void Append(string segment, StringBuilder result)
-        {
-            if (IsVariable(segment))
-            {
-                EvaluateVariable(segment, result);
-            }
-            else
-            {
-                result.Append(segment);
-            }
-        }
-
-        public static bool IsVariable(string segment)
-        {
-            return segment.StartsWith("${") && segment.EndsWith("}");
-        }
-
-        private void EvaluateVariable(string segment, StringBuilder result)
-        {
-            string variable = segment[2..(segment.Length - 1)];
-            if (!this.variables.ContainsKey(variable))
-            {
-                throw new MissingValueException("No value for " + segment);
-            }
-
-            result.Append(this.variables[variable]);
         }
     }
 }

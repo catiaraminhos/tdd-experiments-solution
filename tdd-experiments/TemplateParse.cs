@@ -20,7 +20,7 @@ namespace TemplateEngine
             var segmentsStrings = Parse(template);
             foreach (string segmentString in segmentsStrings)
             {
-                if (Template.IsVariable(segmentString))
+                if (IsVariable(segmentString))
                 {
                     string variableName = segmentString[2..(segmentString.Length - 1)];
                     segments.Add(new Variable(variableName));
@@ -78,6 +78,11 @@ namespace TemplateEngine
         private void AddVariable(List<string> segs, string src, Match match)
         {
             segs.Add(src.Substring(match.Index, match.Length));
+        }
+
+        private static bool IsVariable(string segment)
+        {
+            return segment.StartsWith("${") && segment.EndsWith("}");
         }
     }
 }
