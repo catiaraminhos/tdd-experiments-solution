@@ -24,6 +24,11 @@ namespace TemplateEngine
         {
             var parser = new TemplateParse();
             var segments = parser.Parse(this.templateText);
+            return Concatenate(segments);
+        }
+
+        private string Concatenate(List<string> segments)
+        {
             var result = new StringBuilder();
             foreach (string segment in segments)
             {
@@ -35,19 +40,29 @@ namespace TemplateEngine
 
         private void Append(string segment, StringBuilder result)
         {
-            if (segment.StartsWith("${") && segment.EndsWith("}"))
+            if (IsVariable(segment))
             {
-                string variable = segment[2..(segment.Length - 1)];
-                if (!this.variables.ContainsKey(variable))
-                {
-                    throw new MissingValueException("No value for " + segment);
-                }
-
-                result.Append(this.variables[variable]);
+                EvaluateVariable(segment, result);
             } else
             {
                 result.Append(segment);
             }
+        }
+
+        private bool IsVariable(string segment)
+        {
+            return segment.StartsWith("${") && segment.EndsWith("}");
+        }
+
+        private void EvaluateVariable(string segment, StringBuilder result)
+        {
+            string variable = segment[2..(segment.Length - 1)];
+            if (!this.variables.ContainsKey(variable))
+            {
+                throw new MissingValueException("No value for " + segment);
+            }
+
+            result.Append(this.variables[variable]);
         }
     }
 }
