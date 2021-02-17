@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Text;
 
 namespace TemplateEngine
 {
@@ -12,41 +12,30 @@ namespace TemplateEngine
         public Template(string templateText)
         {
             this.templateText = templateText;
-            this.variables = new Dictionary<string, string>();
+            variables = new Dictionary<string, string>();
         }
 
         public void Set(string variable, string value)
         {
-            this.variables.Add(variable, value);
+            variables[variable] = value;
         }
 
         public string Evaluate()
         {
-            string templateResult = ReplaceVariables();
-            CheckForMissingValues(templateResult);
-            return templateResult;
+            var parser = new TemplateParse();
+            var segments = parser.ParseSegments(templateText);
+            return Concatenate(segments);
         }
 
-        private string ReplaceVariables()
+        private string Concatenate(List<ISegment> segments)
         {
-            string templateResult = this.templateText;
-
-            foreach (KeyValuePair<string, string> variable in this.variables)
+            var result = new StringBuilder();
+            foreach (ISegment segment in segments)
             {
-                string variableNameRegex = "\\$\\{" + variable.Key + "\\}";
-                templateResult = Regex.Replace(templateResult, variableNameRegex, variable.Value);
+                result.Append(segment.Evaluate(variables));
             }
 
-            return templateResult;
-        } 
-
-        private void CheckForMissingValues(string templateResult)
-        {
-            var missingValues = Regex.Match(templateResult, ".*\\$\\{.+\\}.*");
-            if (missingValues.Success)
-            {
-                throw new MissingValueException("No value for " + missingValues.Value);
-            }
+            return result.ToString();
         }
     }
 }
