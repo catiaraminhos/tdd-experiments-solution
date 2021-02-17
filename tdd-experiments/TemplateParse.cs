@@ -14,16 +14,16 @@ namespace TemplateEngine
             return segments;
         }
 
-        private int CollectSegments(List<ISegment> segs, string src)
+        private int CollectSegments(List<ISegment> segments, string source)
         {
             var pattern = "\\$\\{[^}]*\\}";
-            var match = Regex.Match(src, pattern);
+            var match = Regex.Match(source, pattern);
 
             int index = 0;
             while (match.Success)
             {
-                AddPrecedingPlainText(segs, src, match, index);
-                AddVariable(segs, src, match);
+                AddPrecedingPlainText(segments, source, match, index);
+                AddVariable(segments, source, match);
                 index = match.Index + match.Length;
                 match = match.NextMatch();
             }
