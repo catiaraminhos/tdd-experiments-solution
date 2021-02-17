@@ -31,36 +31,36 @@ namespace TemplateEngine
             return index;
         }
 
-        private void AddTail(List<ISegment> segs, string templateText, int index)
+        private void AddTail(List<ISegment> segments, string templateText, int index)
         {
             if (index < templateText.Length)
             {
                 string text = templateText.Substring(index);
-                segs.Add(new PlainText(text));
+                segments.Add(new PlainText(text));
             }
         }
 
-        private void AddEmptyStringIfTemplateWasEmpty(List<ISegment> segs)
+        private void AddEmptyStringIfTemplateWasEmpty(List<ISegment> segments)
         {
-            if (segs.Count == 0)
+            if (segments.Count == 0)
             {
-                segs.Add(new PlainText(""));
+                segments.Add(new PlainText(""));
             }
         }
 
-        private void AddPrecedingPlainText(List<ISegment> segs, string src, Match match, int index)
+        private void AddPrecedingPlainText(List<ISegment> segments, string source, Match match, int index)
         {
             if (index != match.Index)
             {
-                string text = src[index..match.Index];
-                segs.Add(new PlainText(text));
+                string text = source[index..match.Index];
+                segments.Add(new PlainText(text));
             }
         }
 
-        private void AddVariable(List<ISegment> segs, string src, Match match)
+        private void AddVariable(List<ISegment> segments, string source, Match match)
         {
-            string variableName = src.Substring(match.Index + 2, match.Length - 3);
-            segs.Add(new Variable(variableName));
+            string variableName = source.Substring(match.Index + 2, match.Length - 3);
+            segments.Add(new Variable(variableName));
         }
     }
 }
