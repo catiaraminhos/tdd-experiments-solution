@@ -13,18 +13,18 @@ namespace TemplateEngine
 
         public string Evaluate(Dictionary<string, string> variables)
         {
-            if (!variables.ContainsKey(this.name))
+            if (!variables.ContainsKey(name))
             {
                 throw new MissingValueException(
-                    "No value for ${" + this.name + "}");
+                    "No value for ${" + name + "}");
             }
             
-            return variables[this.name];
+            return variables[name];
         }
 
         public override bool Equals(object other)
         {
-            return this.name.Equals(((Variable)other).name);
+            return name.Equals(((Variable)other).name);
         }
     }
 }

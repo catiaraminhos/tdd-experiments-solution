@@ -13,12 +13,12 @@ namespace TemplateEngine
 
         public string Evaluate(Dictionary<string, string> variables)
         {
-            return this.text;
+            return text;
         }
 
         public override bool Equals(object other)
         {
-            return this.text.Equals(((PlainText)other).text);
+            return text.Equals(((PlainText)other).text);
         }
     }
 }

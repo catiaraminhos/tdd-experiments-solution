@@ -21,7 +21,7 @@ namespace TemplateTests
             string name = "myvar";
             string value = "myvalue";
             variables.Add(name, value);
-            Assert.That(new Variable(name).Evaluate(this.variables), Is.EqualTo(value));
+            Assert.That(new Variable(name).Evaluate(variables), Is.EqualTo(value));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace TemplateTests
         {
             string name = "myvar";
             var missingValueException =
-                Assert.Throws<MissingValueException>(() => new Variable(name).Evaluate(this.variables));
+                Assert.Throws<MissingValueException>(() => new Variable(name).Evaluate(variables));
             Assert.That(missingValueException.Message, Is.EqualTo("No value for ${" + name + "}"));
         }
     }
