@@ -3,14 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tdd-experiments", "tdd-experiments\tdd-experiments.csproj", "{3CC327D3-6786-4101-8F81-57922FC786C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tdd-experiments", "tdd-experiments\tdd-experiments.csproj", "{3CC327D3-6786-4101-8F81-57922FC786C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tdd-experiments-tests", "tdd-experiments-tests\tdd-experiments-tests.csproj", "{5E5E3F4A-2663-4CEC-9536-5601A6578767}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tdd-experiments-tests", "tdd-experiments-tests\tdd-experiments-tests.csproj", "{5E5E3F4A-2663-4CEC-9536-5601A6578767}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38F29CD5-BCDA-4B79-AECE-73612987B90C}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tdd-experiments-web-api", "tdd-experiments-web-api\tdd-experiments-web-api.csproj", "{2872AE67-CD95-4978-90A5-8E64B9D84989}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{5E5E3F4A-2663-4CEC-9536-5601A6578767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E5E3F4A-2663-4CEC-9536-5601A6578767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E5E3F4A-2663-4CEC-9536-5601A6578767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2872AE67-CD95-4978-90A5-8E64B9D84989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2872AE67-CD95-4978-90A5-8E64B9D84989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2872AE67-CD95-4978-90A5-8E64B9D84989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2872AE67-CD95-4978-90A5-8E64B9D84989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
