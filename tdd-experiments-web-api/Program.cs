@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace tdd_experiments_web_api
+namespace TDDWebAPI
 {
     public class Program
     {
